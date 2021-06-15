@@ -86,7 +86,6 @@ RegisterNetEvent('Night:jobs', function()
                 event = "Night:jobchoose",
                 args = {
                     nombre = 'burgershot',
-                    label = 'hamburgesas',
 					grado = 0,
                     
                 }
