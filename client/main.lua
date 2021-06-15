@@ -81,7 +81,7 @@ RegisterNetEvent('Night:jobs', function()
         {
             id = 2,
             header = "burger job",
-            txt = "start: 100 for the day",
+            txt = "[Recruit]",
             params = {
                 event = "Night:jobchoose",
                 args = {
@@ -95,7 +95,7 @@ RegisterNetEvent('Night:jobs', function()
         {
             id = 3,
             header = "taco job",
-            txt = "start: 100 for the day",
+            txt = "[Recruit]",
             params = {
                 event = "Night:jobchoose",
                 args = {
@@ -108,7 +108,7 @@ RegisterNetEvent('Night:jobs', function()
         {
             id = 4,
             header = "Police job",
-            txt = "start: 200 for the day",
+            txt = "[Recruit]",
             params = {
                 event = "Night:jobchoose",
                 args = {
@@ -121,7 +121,7 @@ RegisterNetEvent('Night:jobs', function()
         {
             id = 5,
             header = "ambulance",
-            txt = "start: 50 for the day",
+            txt = "[Recruit]",
             params = {
                 event = "Night:jobchoose",
                 args = {
@@ -134,7 +134,7 @@ RegisterNetEvent('Night:jobs', function()
         {
             id = 6,
             header = "unemployed",
-            txt = "Rent tribike",
+            txt = "Vago",
             params = {
                 event = "Night:jobchoose",
                 args = {
@@ -157,8 +157,8 @@ Citizen.CreateThread(function()
         options = {
             {
                 event = 'Night:jobs',
-                icon = 'fas fa-glass-martini-alt',
-                label = "Open cycles menu"
+                icon = 'fas fa-university',
+                label = "Open job menu"
             },
         },
         job = {'all'},
