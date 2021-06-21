@@ -171,6 +171,13 @@ AddEventHandler('Night:jobchoose', function(jobs)
 	local grado = jobs.grado
 
 	TriggerServerEvent('Night:setjob', nombre, grado)
-    exports['mythic_notify']:SendAlert('inform', 'you are hired my friend!')
+
+    if nombre == 'police' then
+        exports['mythic_notify']:SendAlert('inform', 'you are hired as a police')
+    elseif nombre == 'burgershot' then
+        exports['mythic_notify']:SendAlert('inform', 'you are hired as a burger') 
+    else
+        exports['mythic_notify']:SendAlert('inform', 'you are hired my friend!')
+    end           
 
 end)	
