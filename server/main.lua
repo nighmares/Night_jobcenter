@@ -12,5 +12,14 @@ AddEventHandler('Night:setjob', function(nombre,grado)
        
     end    
 
-end)    
+end) 
+
+RegisterServerEvent('Night:drop')
+AddEventHandler('Night:drop', function(msg)
+    local _source = source
+    local xPlayer  = ESX.GetPlayerFromId(source)
+    DropPlayer(source, msg)   
+end) 
+
+
 

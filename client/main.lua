@@ -70,114 +70,77 @@ function loadAnimDict( dict )
     end
 end
 
-
-RegisterNetEvent('Night:jobs', function()
-    TriggerEvent('nh-context:sendMenu', {
+exports['qtarget']:AddBoxZone("jobcenter", vector3(-269.18, -955.79, 30.22), 0.50, 0.50, {
+    name="jobcenter",
+    heading=201.92,
+    debugPoly=false,
+    minZ=30.27834,
+    maxZ=31.87834,
+    }, {
+    options = {
         {
-            id = 1,
-            header = "Escoger trabajo",
-            txt = ""
+            event = 'Night:jobchoose',
+            icon = "fas fa-university",
+            label = "Open job menu",
         },
-        {
-            id = 2,
-            header = "burger job",
-            txt = "[Recruit]",
-            params = {
-                event = "Night:jobchoose",
-                args = {
-                    nombre = 'burgershot',
-					grado = 0,
-                    
-                }
-            }
-        },
-        {
-            id = 3,
-            header = "taco job",
-            txt = "[Recruit]",
-            params = {
-                event = "Night:jobchoose",
-                args = {
-                    nombre = 'taco',
-					grado = 0,
-                    
-                }
-            }
-        },
-        {
-            id = 4,
-            header = "Police job",
-            txt = "[Recruit]",
-            params = {
-                event = "Night:jobchoose",
-                args = {
-                    nombre = 'police',
-					grado = 0,
-                    
-                }
-            }
-        },
-        {
-            id = 5,
-            header = "ambulance",
-            txt = "[Recruit]",
-            params = {
-                event = "Night:jobchoose",
-                args = {
-                    nombre = 'ambulance',
-					grado = 0,
-                    
-                }
-            }
-        },
-        {
-            id = 6,
-            header = "unemployed",
-            txt = "Vago",
-            params = {
-                event = "Night:jobchoose",
-                args = {
-                    nombre = 'unemployed',
-					grado = 0,
-                    
-                }
-            }
-        },
-        
-    })
-end)
-
-Citizen.CreateThread(function()
-    local biker = {
-		`cs_nigel`
-    }
-
-    exports['bt-target']:AddTargetModel(biker, {
-        options = {
-            {
-                event = 'Night:jobs',
-                icon = 'fas fa-university',
-                label = "Open job menu"
-            },
-        },
-        job = {'all'},
-        distance = 1.5
-    })
-end)
+    },
+    distance = 3.5
+})
 
 RegisterNetEvent('Night:jobchoose')
-AddEventHandler('Night:jobchoose', function(jobs)
-	local nombre = jobs.nombre
-	local grado = jobs.grado
+AddEventHandler('Night:jobchoose', function()
+	local jobs = {}
+    for k,v in pairs(Config.jobs) do
+        table.insert(jobs, {
+            id = k,
+            header = v.label,
+            txt = '',
+            params = {
+                event = 'Night:jobCenter2',
+                args = {
+                    nombre = v.nombre,
+                    grado = v.grado
+                }
+            }
+        })
+    end
+    TriggerEvent('nh-context:sendMenu', jobs)      
 
-	TriggerServerEvent('Night:setjob', nombre, grado)
+   
+end)
 
-    if nombre == 'police' then
-        exports['mythic_notify']:SendAlert('inform', 'you are hired as a police')
-    elseif nombre == 'burgershot' then
-        exports['mythic_notify']:SendAlert('inform', 'you are hired as a burger') 
+RegisterNetEvent('Night:jobCenter2')
+AddEventHandler('Night:jobCenter2', function(data)
+
+    TriggerServerEvent('Night:setjob', data.nombre, data.grado)
+
+    for k,v in pairs (Config.Blacklistedjobs) do
+        print(v)
+        if data.nombre == v then 
+            TriggerServerEvent('Night:drop','good luck next time bud') 
+        end
+    end
+
+    if data.nombre == 'pizza' then
+        notify('you are hired as a pizza man!')
+    elseif data.nombre == 'burgershot' then
+        notify('you are hired as a burger man!') 
     else
-        exports['mythic_notify']:SendAlert('inform', 'you are hired my friend!')
-    end           
+        notify('you are hired my friend!') 
+    end 
 
-end)	
+    
+
+
+end)
+
+function notify(mensaje)
+
+    if Config.notitype == 'esx' then
+        ESX.ShowNotification(mensaje)
+    elseif Config.notitype == 'mythic' then
+        exports['mythic_notify']:SendAlert('inform', mensaje, 10000)
+    end
+
+end 
+
